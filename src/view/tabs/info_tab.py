@@ -1,9 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-import os
-import subprocess
-import sys
-from pathlib import Path
 
 
 def create_info_tab(gui_instance, notebook):

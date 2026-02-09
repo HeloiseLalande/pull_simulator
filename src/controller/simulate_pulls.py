@@ -168,7 +168,7 @@ def simulate_pulls(num_pulls: int, config: dict, banner_type: str = 'character',
     return results
 
 
-def format_results(results: dict, num_pulls: int) -> str:
+def format_results(results: dict, num_pulls: int, game : str) -> str:
     """
     Formate les résultats de la simulation en chaîne lisible.
     
@@ -180,7 +180,7 @@ def format_results(results: dict, num_pulls: int) -> str:
         Chaîne formatée avec les résultats
     """
     output = f"\n{'='*50}\n"
-    output += f"RÉSULTATS SIMULATION - {results['total_pulls']} PULLS\n"
+    output += f"RÉSULTATS SIMULATION {game.upper()} - {results['total_pulls']} PULLS\n"
     if results['bonus_pulls_from_starlight'] > 0:
         output += f"({num_pulls} pulls initiaux + {results['bonus_pulls_from_starlight']} pulls bonus via starlight)\n"
     output += f"{'='*50}\n\n"
@@ -213,7 +213,7 @@ def format_results(results: dict, num_pulls: int) -> str:
 def main():
     """Fonction principale pour tester le simulateur."""
     # Chemin vers le fichier de configuration
-    config_path = Path(__file__).parent.parent.parent / 'data' / 'honkai.json'
+    config_path = Path(__file__).parent.parent.parent / 'data' / 'honkai_starrail.json'
     
     # Charger la configuration
     config = load_gacha_config(str(config_path))
@@ -224,8 +224,9 @@ def main():
     print("\n" + "="*50)
     print("SIMULATION 4 : 90 PULLS AVEC 40 PITY ET GARANTIE ACTIVE")
     print("="*50)
-    results_4 = simulate_pulls(num_pulls, config, banner_type='character', use_starlight=True, initial_pity_five_star=40, five_star_guaranteed=True)
-    print(format_results(results_4, num_pulls))
+    results_4 = simulate_pulls(num_pulls, config, banner_type='character', use_starlight=True, 
+                               initial_pity_five_star=40, five_star_guaranteed=True)
+    print(format_results(results_4, num_pulls, config['title']))
 
 
 if __name__ == "__main__":

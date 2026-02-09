@@ -113,7 +113,7 @@ class GachaSimulatorGUI:
             )
             
             # Formater et afficher les résultats
-            results_str = format_results(results, num_pulls)
+            results_str = format_results(results, num_pulls, config['title'])
             
             self.results_text.config(state=tk.NORMAL)
             self.results_text.delete(1.0, tk.END)

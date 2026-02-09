@@ -1,5 +1,29 @@
 import tkinter as tk
 from tkinter import ttk, scrolledtext
+from pathlib import Path
+import json
+
+
+def get_json_configs():
+    """Charge les fichiers JSON du dossier data et retourne un dictionnaire titre -> chemin"""
+    data_folder = Path(__file__).parent.parent.parent.parent / "data"
+    configs = {}
+    
+    # Parcourir tous les fichiers JSON du dossier data
+    if data_folder.exists():
+        for json_file in sorted(data_folder.glob("*.json")):
+            try:
+                with open(json_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    title = data.get("title", json_file.stem)
+                    # Stocker le chemin relatif
+                    relative_path = f"data/{json_file.name}"
+                    configs[title] = relative_path
+            except (json.JSONDecodeError, IOError):
+                # Si le fichier ne peut pas être lu, ignorer
+                pass
+    
+    return configs
 
 
 def create_simulator_tab(gui_instance, notebook):
@@ -14,12 +38,35 @@ def create_simulator_tab(gui_instance, notebook):
     # --- Sélection du fichier JSON ---
     ttk.Label(left_frame, text="Fichier de configuration :", font=("Arial", 10, "bold")).pack(anchor=tk.W, pady=(10, 5))
     
-    json_frame = ttk.Frame(left_frame)
-    json_frame.pack(fill=tk.X, pady=5)
+    # Charger les configurations disponibles
+    configs = get_json_configs()
+    config_titles = list(configs.keys())
     
-    gui_instance.json_path = tk.StringVar(value="data/honkai.json")
-    ttk.Entry(json_frame, textvariable=gui_instance.json_path, width=25).pack(side=tk.LEFT, padx=5)
-    ttk.Button(json_frame, text="Parcourir", command=lambda: gui_instance.select_json_file()).pack(side=tk.LEFT)
+    # Créer un dictionnaire pour mapper titre -> chemin sur l'instance GUI
+    gui_instance.json_configs = configs
+    
+    # Combobox pour sélectionner la configuration
+    gui_instance.json_title = tk.StringVar(value=config_titles[0] if config_titles else "")
+    config_combobox = ttk.Combobox(
+        left_frame,
+        textvariable=gui_instance.json_title,
+        values=config_titles,
+        state="readonly",
+        width=22
+    )
+    config_combobox.pack(anchor=tk.W, pady=5, padx=5)
+    
+    # Initialiser json_path avec le premier fichier disponible
+    if config_titles:
+        gui_instance.json_path = tk.StringVar(value=configs[config_titles[0]])
+        # Mettre à jour json_path quand la sélection change
+        def on_config_change(*args):
+            selected_title = gui_instance.json_title.get()
+            if selected_title in configs:
+                gui_instance.json_path.set(configs[selected_title])
+        gui_instance.json_title.trace('w', on_config_change)
+    else:
+        gui_instance.json_path = tk.StringVar(value="data/honkai.json")
     
     # --- Type de bannière ---
     ttk.Label(left_frame, text="Type de bannière :", font=("Arial", 10, "bold")).pack(anchor=tk.W, pady=(15, 5))
