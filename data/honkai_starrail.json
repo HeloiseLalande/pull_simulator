@@ -9,15 +9,18 @@
   "pity_system": {
     "four_star_pity": 10,
     "five_star_pity": 90,
+    "five_star_pity_weapon": 80,
     "five_star_soft_pity_start": 75,
-    "five_star_pity_probability_note": "La probabilité augmente entre 75 et 90 pulls, estimée linéaire (entre 0.6% et 100%)"
+    "five_star_soft_pity_start_weapon": 75,
+    "five_star_pity_probability_note": "La probabilité augmente entre 75 et 90 pulls pour personnages, entre 75 et 80 pour armes, estimée linéaire (entre 0.6% et 100%)"
   },
   "rewards": {
     "weapons": {
       "starlight": 8
     },
     "characters": {
-      "four_star_starlight": 12
+      "four_star_starlight": 20,
+      "five_star_starlight": 40
     }
   },
   "banner_mechanics": {

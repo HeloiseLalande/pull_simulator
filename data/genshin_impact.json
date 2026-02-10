@@ -10,20 +10,22 @@
     "four_star_pity": 10,
     "five_star_pity": 90,
     "five_star_soft_pity_start": 75,
-    "five_star_pity_probability_note": "La probabilité augmente entre 75 et 90 pulls, estimée linéaire (entre 0.6% et 100%)"
-  },
+    "five_star_pity_probability_note": "La probabilité augmente entre 75 et 90 pulls, estimée linéaire (entre 0.6% et 100%)",
+    "five_star_pity_weapon_probability_note": "Les armes sont jusqu'à 80 de five_star_pity"
+  }, 
   "rewards": {
     "weapons": {
-      "starlight": 8
+      "starlight": 2
     },
     "characters": {
-      "four_star_starlight": 12
+      "four_star_starlight": 5,
+      "five_star_starlight": 10
     }
   },
   "banner_mechanics": {
     "limited_character": {
-      "desired_chance": 0.55,
-      "undesired_chance": 0.45,
+      "desired_chance": 0.5,
+      "undesired_chance": 0.5,
       "guarantee_note": "Si personnage non voulu obtenu, la fois suivante le personnage voulu est garanti"
     },
     "weapon_banner": {
@@ -33,6 +35,6 @@
   },
   "currency": {
     "stellar_jades_per_pull": 160,
-    "starlight_per_pull": 20
+    "starlight_per_pull": 5
   }
 }
